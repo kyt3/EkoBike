@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="EkoBike" target="1.5" />
+      <module name="EkoBike" target="8" />
       <module name="EkoBikeMaven" target="1.5" />
     </bytecodeTargetLevel>
   </component>

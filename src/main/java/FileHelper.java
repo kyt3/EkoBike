@@ -4,7 +4,6 @@ import real.FoldingBike;
 import real.Speedelec;
 
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +14,7 @@ import java.util.List;
 public class FileHelper {
     private String pathToFile;
 
-    public FileHelper(String pathToFile) throws FileNotFoundException {
+    public FileHelper(String pathToFile){
         this.pathToFile = pathToFile;
     }
 
@@ -41,12 +40,6 @@ public class FileHelper {
     }
 
     private Bike parseLine(String line) {
-        String brand = "";
-        String color;
-        int weight;
-        int price;
-        boolean availabilityLights;
-
         String[] characteristics = line.split(";");
 
         for (int i = 0; i < characteristics.length; i++) {
@@ -55,7 +48,6 @@ public class FileHelper {
 
         String[] bikeAndBrand = characteristics[0].split(" ");
 
-        int index = 0;
         if (bikeAndBrand[0].equals("FOLDING")) {
             return getFoldingBike(bikeAndBrand,characteristics);
         } else {
@@ -67,11 +59,6 @@ public class FileHelper {
     //todo подумать, может можно переделать эти методы, чтобы было красивее
     private Bike getFoldingBike(String[] bikeAndBrand, String[] characteristics){
     	String brand = "";
-        String color;
-        int weight;
-        int price;
-        boolean availabilityLights;
-
 
     	for (int i = 2; i < bikeAndBrand.length; i++) {
                 brand += bikeAndBrand[i] + " ";
@@ -81,10 +68,10 @@ public class FileHelper {
         int index = 0;
         int sizeWheels = Integer.parseInt(characteristics[++index]);
         int gears = Integer.parseInt(characteristics[++index]);
-        weight = Integer.parseInt(characteristics[++index]);
-        availabilityLights = Boolean.parseBoolean(characteristics[++index]);
-        color = characteristics[++index];
-        price = Integer.parseInt(characteristics[++index]);
+        int weight = Integer.parseInt(characteristics[++index]);
+        boolean availabilityLights = Boolean.parseBoolean(characteristics[++index]);
+        String color = characteristics[++index];
+        int price = Integer.parseInt(characteristics[++index]);
 
         return new FoldingBike(brand, color, weight, price, availabilityLights, sizeWheels, gears);
     }
