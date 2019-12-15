@@ -9,7 +9,7 @@ public class Speedelec extends ElectricBike {
 
     @Override
     public String getStringForFile(){
-        return String.format("SPEEDELEC %s; %d; %d; %s; %d; %s; %d", brand, maxSpeed, weight, availabilityLights,
+        return String.format("SPEEDELEC %s; %d; %d; %s; %d; %s; %d;\n", brand, maxSpeed, weight, availabilityLights,
                 capacity, color, price);
     }
 

@@ -14,7 +14,7 @@ public class FoldingBike extends Bike {
 
     @Override
     public String getStringForFile(){
-        return String.format("FOLDING BIKE %s; %d; %d; %d; %s; %s; %d", brand, sizeWheels, gears, weight,
+        return String.format("FOLDING BIKE %s; %d; %d; %d; %s; %s; %d;\n", brand, sizeWheels, gears, weight,
                 availabilityLights, color, price);
     }
 

@@ -20,7 +20,32 @@ public class Logic {
 		this.bikes = fileHelper.readBikesFromFile();
 	}
 
+	private void prepareToStart() throws IOException {
+		System.out.println("Please make your choice: \n" +
+				"1 - start program with default catalog file \n" +
+				"2 - start program with own file \n");
+		int choice = Integer.parseInt(bufferedReader.readLine());
+
+		switch (choice){
+			case 1:
+				return;
+			case 2:
+				changeDefaultFile();
+				break;
+			default:
+				prepareToStart();
+		}
+	}
+
+	private void changeDefaultFile() throws IOException {
+		System.out.println("Enter path to file");
+		String pathToFile = bufferedReader.readLine();
+		fileHelper = new FileHelper(pathToFile);
+	}
+
 	public void startProgram() throws IOException {
+		prepareToStart();
+
 		while(true){
 			showMenu();
 			int choice = Integer.parseInt(bufferedReader.readLine());
@@ -50,7 +75,7 @@ public class Logic {
 		}
 	}
 
-    public void showMenu() {
+    private void showMenu() {
         System.out.print("Please make your choice: \n" +
                 "1 - Show the entire EcoBike catalog \n" +
                 "2 – Add a new folding bike \n" +
@@ -61,7 +86,7 @@ public class Logic {
                 "7 – Stop the program \n");
     }
 
-    public void showCatalog(){
+    private void showCatalog(){
     	for (Bike bike : bikes ) {
     		System.out.println(bike);
     	}
@@ -102,7 +127,7 @@ public class Logic {
     	return params;
    	}
 
-    public void addNewFoldingBike() throws IOException {
+    private void addNewFoldingBike() throws IOException {
     	Map<String, String> defaultParams = askDefaultBikeParams();
 // String brand, String color, int weight, int price, boolean availabilityLights, int sizeWheels, int gears)
 		System.out.println("Enter size of wheels");
@@ -124,7 +149,7 @@ public class Logic {
     //protected int maxSpeed;
     // protected int capacity;
 
-    public void addNewSpeedelec() throws IOException {
+    private void addNewSpeedelec() throws IOException {
     	Map<String,String> defaultParams = askDefaultBikeParams();
 
     	Map<String,Integer> defaultElectricParams = askDefaultElectricBikeParams();
@@ -140,7 +165,7 @@ public class Logic {
 				defaultElectricParams.get("capacity")));
     }
 
-    public void addNewEBike() throws IOException {
+    private void addNewEBike() throws IOException {
     	Map<String,String> defaultParams = askDefaultBikeParams();
 
     	Map<String,Integer> defaultElectricParams = askDefaultElectricBikeParams();
@@ -161,10 +186,6 @@ public class Logic {
 
     public void writeToFile() throws IOException {
     	fileHelper.writeBikesToFile(bikes);
-    }
-
-    public void stopProgram(){
-    	System.exit(0);
     }
 
 }

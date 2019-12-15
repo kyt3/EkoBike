@@ -9,7 +9,7 @@ public class Ebike extends ElectricBike {
 
     @Override
     public String getStringForFile(){
-        return String.format("E-BIKE %s; %d; %d; %s; %d; %s; %d", brand, maxSpeed, weight, availabilityLights,
+        return String.format("E-BIKE %s; %d; %d; %s; %d; %s; %d;\n", brand, maxSpeed, weight, availabilityLights,
                 capacity, color, price);
     }
 
