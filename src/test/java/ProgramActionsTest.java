@@ -32,7 +32,7 @@ public class ProgramActionsTest {
                 "2 – Add a new folding bike \n" +
                 "3 – Add a new speedelec \n" +
                 "4 – Add a new e-bike \n" +
-                "5 – Find the first item of a particular brand \n" +
+                "5 – Find first bike by parameters \n" +
                 "6 – Write to file \n" +
                 "7 – Stop the program \n";
 

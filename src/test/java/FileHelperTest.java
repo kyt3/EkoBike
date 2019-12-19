@@ -23,7 +23,7 @@ public class FileHelperTest {
         List<Bike> bikes = fileHelper.readBikesFromFile();
 
         for (int i = 0; i < fileStrings.size(); i++) {
-            Assert.assertEquals(fileStrings.get(i), bikes.get(i).getStringForFile());
+            Assert.assertEquals(fileStrings.get(i) + "\n", bikes.get(i).getStringForFile());
         }
     }
 
