@@ -2,6 +2,7 @@ package abstract_;
 
 import java.util.Objects;
 
+//Abstract class of electric bike. Contains all common parameters of electric bike, and some needed getters.
 public abstract class ElectricBike extends Bike {
     protected int maxSpeed;
     protected int capacity;
@@ -10,6 +11,10 @@ public abstract class ElectricBike extends Bike {
         super(brand, color, weight, price, availabilityLights);
         this.maxSpeed = maxSpeed;
         this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 
     @Override

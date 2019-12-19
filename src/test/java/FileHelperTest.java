@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+//Some positive tests for FileHelper class
 public class FileHelperTest {
     private String pathToTestFile = "./src/main/resources/tests/FileHelperTestFile";
     private FileHelper fileHelper = new FileHelper(pathToTestFile);

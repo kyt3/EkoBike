@@ -3,6 +3,7 @@ package abstract_;
 
 import java.util.Objects;
 
+//Abstract class bike. Contains all common parameters of bike, and some needed getters.
 public abstract class Bike {
     protected String brand;
     protected String color;
@@ -10,6 +11,7 @@ public abstract class Bike {
     protected int price;
     protected boolean availabilityLights;
 
+    //Constructor need to get all of parameters.
     public Bike(String brand, String color, int weight, int price, boolean availabilityLights) {
         this.brand = brand;
         this.color = color;
@@ -18,7 +20,20 @@ public abstract class Bike {
         this.availabilityLights = availabilityLights;
     }
 
+    //String for writing file is different from string that we printing to users, so we need this method
     public abstract String getStringForFile();
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
 
     @Override
     public boolean equals(Object o) {

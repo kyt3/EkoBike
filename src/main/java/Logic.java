@@ -1,191 +1,62 @@
-import abstract_.Bike;
-import real.Ebike;
-import real.FoldingBike;
-import real.Speedelec;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+//Logic class. Simply read users choice and call methods of ProgramActions class
 public class Logic {
-	private List<Bike> bikes;
-	private FileHelper fileHelper;
 	private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+	ProgramActions programActions;
 
+	//It gets only file helper object and create program action instance.
 	public Logic(FileHelper fileHelper) throws IOException {
-		this.fileHelper = fileHelper;
-		this.bikes = fileHelper.readBikesFromFile();
+		programActions = new ProgramActions(fileHelper);
 	}
 
-	private void prepareToStart() throws IOException {
-		System.out.println("Please make your choice: \n" +
-				"1 - start program with default catalog file \n" +
-				"2 - start program with own file \n");
-		int choice = Integer.parseInt(bufferedReader.readLine());
-
-		switch (choice){
-			case 1:
-				return;
-			case 2:
-				changeDefaultFile();
-				break;
-			default:
-				prepareToStart();
-		}
-	}
-
-	private void changeDefaultFile() throws IOException {
-		System.out.println("Enter path to file");
-		String pathToFile = bufferedReader.readLine();
-		fileHelper = new FileHelper(pathToFile);
-	}
-
+	//Method from that all beginning
 	public void startProgram() throws IOException {
-		prepareToStart();
+		//Prepare it is simply asked user to using default file or not.
+		programActions.prepareToStart();
 
-		while(true){
-			showMenu();
-			int choice = Integer.parseInt(bufferedReader.readLine());
+		//Infinite loop
+		while (true) {
+			try{
+				//Show menu each time after choice
+				programActions.showMenu();
+				//Reading choice
+				int choice = Integer.parseInt(bufferedReader.readLine());
 
-			switch(choice){
-				case 1:
-					showCatalog();
-					break;
-				case 2:
-					addNewFoldingBike();
-					break;
-				case 3:
-					addNewSpeedelec();
-					break;
-				case 4:
-					addNewEBike();
-					break;
-				case 5:
-					findFirstBrand();
-					break;
-				case 6:
-					writeToFile();
-					break;
-				case 7:
-					System.exit(0);
+				//Call correct method depends choice
+				switch (choice) {
+					case 1:
+						programActions.showCatalog();
+						break;
+					case 2:
+						programActions.addNewFoldingBike();
+						break;
+					case 3:
+						programActions.addNewSpeedelec();
+						break;
+					case 4:
+						programActions.addNewEBike();
+						break;
+					case 5:
+						Map<String, String> params = programActions.askUserForSearch();
+						programActions.findFirstBike(params);
+						break;
+					case 6:
+						programActions.writeToFile();
+						break;
+					case 7:
+						System.exit(0);
+				}
+			} catch (NumberFormatException e) {
+				//Catching exception when it is not possible to parse string to integer.
+				System.out.println("It seems that you try to write string extend number or simply press enter." +
+						"Try to enter information again please.");
 			}
 		}
+
 	}
-
-    private void showMenu() {
-        System.out.print("Please make your choice: \n" +
-                "1 - Show the entire EcoBike catalog \n" +
-                "2 – Add a new folding bike \n" +
-                "3 – Add a new speedelec \n" +
-                "4 – Add a new e-bike \n" +
-                "5 – Find the first item of a particular brand \n" +
-                "6 – Write to file \n" +
-                "7 – Stop the program \n");
-    }
-
-    private void showCatalog(){
-    	for (Bike bike : bikes ) {
-    		System.out.println(bike);
-    	}
-    }
-
-    // protected String brand;
-    // protected String color;
-    // protected int weight;
-    // protected int price;
-    // protected boolean availabilityLights;
-
-    // private int sizeWheels;
-    // private int gears;
-
-   	private Map<String,String> askDefaultBikeParams() throws IOException {
-   		Map<String,String> params = new HashMap();
-   		System.out.println("Enter brand");
-    	params.put("brand", bufferedReader.readLine());
-    	System.out.println("Enter available colors throw spaces, for example: black red");
-    	params.put("color", bufferedReader.readLine());
-    	System.out.println("Enter weight");
-    	params.put("weight", bufferedReader.readLine());
-    	System.out.println("Enter price");
-    	params.put("price", bufferedReader.readLine());
-    	System.out.println("Is bike have lights? yes/no");
-		params.put("availabilityLights", bufferedReader.readLine());
-
-    	return params;
-   	}
-
-   	private Map<String, Integer> askDefaultElectricBikeParams() throws IOException {
-   		Map<String,Integer> params = new HashMap();
-   		System.out.println("Enter maximum speed");
-		params.put("maxSpeed", Integer.parseInt(bufferedReader.readLine()));
-    	System.out.println("Enter capacity");
-		params.put("capacity", Integer.parseInt(bufferedReader.readLine()));
-
-    	return params;
-   	}
-
-    private void addNewFoldingBike() throws IOException {
-    	Map<String, String> defaultParams = askDefaultBikeParams();
-// String brand, String color, int weight, int price, boolean availabilityLights, int sizeWheels, int gears)
-		System.out.println("Enter size of wheels");
-		int sizeWheels = Integer.parseInt(bufferedReader.readLine());
-		System.out.println("Enter count of gears");
-		int gears = Integer.parseInt(bufferedReader.readLine());
-
-		bikes.add(new FoldingBike(
-				defaultParams.get("brand"),
-				defaultParams.get("color"),
-				Integer.parseInt(defaultParams.get("weight")),
-				Integer.parseInt(defaultParams.get("price")),
-				defaultParams.get("availabilityLights").charAt(0) == 'y' ? true : false,
-				sizeWheels,
-				gears));
-
-    }
-
-    //protected int maxSpeed;
-    // protected int capacity;
-
-    private void addNewSpeedelec() throws IOException {
-    	Map<String,String> defaultParams = askDefaultBikeParams();
-
-    	Map<String,Integer> defaultElectricParams = askDefaultElectricBikeParams();
-
-// String brand, String color, int weight, int price, boolean availabilityLights, int maxSpeed, int capacity) {
-		bikes.add(new Speedelec(
-				defaultParams.get("brand"),
-				defaultParams.get("color"),
-				Integer.parseInt(defaultParams.get("weight")),
-				Integer.parseInt(defaultParams.get("price")),
-				defaultParams.get("availabilityLights").charAt(0) == 'y' ? true : false,
-				defaultElectricParams.get("maxSpeed"),
-				defaultElectricParams.get("capacity")));
-    }
-
-    private void addNewEBike() throws IOException {
-    	Map<String,String> defaultParams = askDefaultBikeParams();
-
-    	Map<String,Integer> defaultElectricParams = askDefaultElectricBikeParams();
-
-		bikes.add(new Ebike(
-				defaultParams.get("brand"),
-				defaultParams.get("color"),
-				Integer.parseInt(defaultParams.get("weight")),
-				Integer.parseInt(defaultParams.get("price")),
-				defaultParams.get("availabilityLights").charAt(0) == 'y' ? true : false,
-				defaultElectricParams.get("maxSpeed"),
-				defaultElectricParams.get("capacity")));
-    }
-
-    public void findFirstBrand(){
-    	//todo realization
-    }
-
-    public void writeToFile() throws IOException {
-    	fileHelper.writeBikesToFile(bikes);
-    }
 
 }
